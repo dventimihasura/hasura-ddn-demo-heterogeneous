@@ -1,0 +1,30 @@
+version: '3.1'
+services:
+  postgres:
+    image: postgres:16
+    ports:
+      - ${PGPORT}:5432
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    volumes:
+      - ./initdb.d-postgres:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "psql -h localhost -U postgres -d postgres -c 'select count(*) from \"Artist\"'"]
+  mongo:
+    image: mongo:6
+    restart: always
+    ports:
+      - ${MGPORT}:27017
+    environment:
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+      MONGO_INITDB_ROOT_USERNAME: mongo
+    depends_on:
+      postgres:
+        condition: service_healthy
+  migrate:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
