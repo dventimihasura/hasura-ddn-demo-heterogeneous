@@ -46,4 +46,4 @@ remote_relationships:
           name: PlaylistTrack
           schema: public
     name: PlaylistTracks
-logical_model: mongo_
+logical_model: Track

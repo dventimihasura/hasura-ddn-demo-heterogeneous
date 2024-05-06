@@ -36,7 +36,7 @@ services:
       - mongo
     restart: always
   hasura:
-    image: hasura/graphql-engine:v2.38.0
+    image: hasura/graphql-engine:v2.38.0.cli-migrations-v3
     depends_on:
       - mongo_data_connector
     restart: always

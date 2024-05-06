@@ -14,4 +14,4 @@ array_relationships:
         insertion_order: null
         remote_table:
           - Track
-logical_model: mongo_Album
+logical_model: Album

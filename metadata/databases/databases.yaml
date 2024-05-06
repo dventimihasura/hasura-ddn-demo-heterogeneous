@@ -48,7 +48,7 @@
           type:
             nullable: false
             scalar: double
-      name: mongo_
+      name: Track
     - fields:
         - name: _id
           type:
@@ -66,7 +66,7 @@
           type:
             nullable: false
             scalar: int
-      name: mongo_Album
+      name: Album
     - fields:
         - name: _id
           type:
@@ -80,7 +80,7 @@
           type:
             nullable: false
             scalar: string
-      name: mongo_Artist
+      name: Artist
   tables: "!include mongo/tables/tables.yaml"
 - name: postgres
   kind: postgres
