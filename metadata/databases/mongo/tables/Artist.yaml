@@ -1,0 +1,17 @@
+table:
+  - Artist
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_name: mongo_Artist
+  custom_root_fields: {}
+array_relationships:
+  - name: Albums
+    using:
+      manual_configuration:
+        column_mapping:
+          ArtistId: ArtistId
+        insertion_order: null
+        remote_table:
+          - Album
+logical_model: mongo_Artist

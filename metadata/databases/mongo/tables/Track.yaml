@@ -1,0 +1,49 @@
+table:
+  - Track
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_name: mongo_Track
+  custom_root_fields: {}
+remote_relationships:
+  - definition:
+      to_source:
+        field_mapping:
+          GenreId: GenreId
+        relationship_type: object
+        source: postgres
+        table:
+          name: Genre
+          schema: public
+    name: Genre
+  - definition:
+      to_source:
+        field_mapping:
+          TrackId: TrackId
+        relationship_type: array
+        source: postgres
+        table:
+          name: InvoiceLine
+          schema: public
+    name: InvoiceLines
+  - definition:
+      to_source:
+        field_mapping:
+          MediaTypeId: MediaTypeId
+        relationship_type: object
+        source: postgres
+        table:
+          name: MediaType
+          schema: public
+    name: MediaType
+  - definition:
+      to_source:
+        field_mapping:
+          TrackId: TrackId
+        relationship_type: array
+        source: postgres
+        table:
+          name: PlaylistTrack
+          schema: public
+    name: PlaylistTracks
+logical_model: mongo_

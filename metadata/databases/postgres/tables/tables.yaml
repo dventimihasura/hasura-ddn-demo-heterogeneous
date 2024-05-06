@@ -1,5 +1,3 @@
-- "!include public_Album.yaml"
-- "!include public_Artist.yaml"
 - "!include public_Customer.yaml"
 - "!include public_Employee.yaml"
 - "!include public_Genre.yaml"
@@ -8,4 +6,3 @@
 - "!include public_MediaType.yaml"
 - "!include public_Playlist.yaml"
 - "!include public_PlaylistTrack.yaml"
-- "!include public_Track.yaml"

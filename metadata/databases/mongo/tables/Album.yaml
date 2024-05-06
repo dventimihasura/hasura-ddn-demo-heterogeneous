@@ -1,0 +1,17 @@
+table:
+  - Album
+configuration:
+  column_config: {}
+  custom_column_names: {}
+  custom_name: mongo_Album
+  custom_root_fields: {}
+array_relationships:
+  - name: Tracks
+    using:
+      manual_configuration:
+        column_mapping:
+          AlbumId: AlbumId
+        insertion_order: null
+        remote_table:
+          - Track
+logical_model: mongo_Album
