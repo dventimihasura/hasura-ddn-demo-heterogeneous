@@ -3,7 +3,7 @@ table:
 configuration:
   column_config: {}
   custom_column_names: {}
-  custom_name: mongo_Album
+  custom_name: Album
   custom_root_fields: {}
 array_relationships:
   - name: Tracks

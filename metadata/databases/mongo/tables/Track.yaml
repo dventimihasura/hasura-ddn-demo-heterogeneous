@@ -3,7 +3,7 @@ table:
 configuration:
   column_config: {}
   custom_column_names: {}
-  custom_name: mongo_Track
+  custom_name: Track
   custom_root_fields: {}
 remote_relationships:
   - definition:
