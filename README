@@ -594,7 +594,7 @@ command.
   collections within the database to obtain documents from which to
   build the model metadata.
 
-** Step 13.5:  Track all collections.
+** Step 14:  Track all collections.
 
 Having introspected the database, we're now prepared to make choices
 about which tables to track.  Let's start by tracking /all/ of the
@@ -690,7 +690,7 @@ tables and relationships, even if we'll delete some of them later.
   collection.  These are the ~Album.hml~, ~Artist.hml~, and
   ~Track.hml~ model files that we pruned from the postgres connector.  
 
-** Step 13.6:  Add in some relationships.
+** Step 15:  Add in some relationships.
 
 Some relationships cannot be inferred automatically but must be added
 manually.  MongoDB is one such example, since it does not have foreign
@@ -842,7 +842,7 @@ Third, add these documents to the end of the
   relationships from the ~Track~ model to models from the postgres
   data connector.
 
-** Step 14:  Add the TypeScript connector.
+** Step 16:  Add the TypeScript connector.
 
 Next, we add a data connector manifest to the ~app~ sub-graph for
 conneting to REST services.
@@ -915,7 +915,7 @@ conneting to REST services.
   step, we will write TypeScript code to get data from a REST web
   service. 
 
-** Step 15:  Write TypeScript code to get data from a REST web service.
+** Step 19:  Write TypeScript code to get data from a REST web service.
 
 We will add full-text search capabilities over ~Artist~, ~Album~, and
 ~Track~ using a third-party cloud-based search service called [[https://www.algolia.com/][Algolia]].
@@ -997,7 +997,7 @@ First, create this TypeScript code file in
   been set up previously).  These functions become available to the
   Hasura TypeScript connector by way of the 
 
-** Step 17:  Track all operations.
+** Step 20:  Track all operations.
 
 Like we introspected the postgres database with the postgres connector
 and introspected the mongo database with the mongo connector, we can
@@ -1036,7 +1036,7 @@ TypeScript connector.
   ~models~ folder.
 
   
-** Step 18:  Add custom relationships.
+** Step 21:  Add custom relationships.
 
 Some relationships cannot be inferred automatically but must be added
 manually.  Here we add some additional relationships.
@@ -1110,7 +1110,7 @@ document to the end of that file.
             - fieldName: trackId
 #+end_src
 
-** Step 19:  Create a build.
+** Step 22:  Create a build.
 
 Create a build for the supergraph with the following command.
 
@@ -1134,7 +1134,7 @@ Create a build for the supergraph with the following command.
 +---------------+------------------------------------------------------------------------------------------------------+
 #+end_example
 
-** Step 20:  Test out the API.
+** Step 23:  Test out the API.
 
 The previous step should log to the console information about the
 project and the immutable build that was just created, including a
