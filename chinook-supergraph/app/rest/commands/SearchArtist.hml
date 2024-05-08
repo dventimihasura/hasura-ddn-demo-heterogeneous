@@ -1,0 +1,72 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: ArtistHit
+  fields:
+    - name: artistId
+      type: Float!
+    - name: name
+      type: String!
+  graphql:
+    typeName: App_ArtistHit
+    inputTypeName: App_ArtistHitInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: rest
+      dataConnectorObjectType: ArtistHit
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: ArtistHit
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - artistId
+          - name
+
+---
+kind: Command
+version: v1
+definition:
+  name: SearchArtist
+  outputType: "[ArtistHit!]!"
+  arguments:
+    - name: query
+      type: String!
+  source:
+    dataConnectorName: rest
+    dataConnectorCommand:
+      function: searchArtist
+  graphql:
+    rootFieldName: app_searchArtist
+    rootFieldKind: Query
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: SearchArtist
+  permissions:
+    - role: admin
+      allowExecution: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: Artist
+  source: ArtistHit
+  target:
+    model:
+      name: Artist
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: artistId
+      target:
+        modelField:
+          - fieldName: artistId  

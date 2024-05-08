@@ -1,0 +1,42 @@
+{
+  "name": "Album",
+  "collections": {
+    "Album": {
+      "type": "Album"
+    }
+  },
+  "objectTypes": {
+    "Album": {
+      "fields": {
+        "AlbumId": {
+          "type": {
+            "nullable": {
+              "scalar": "int"
+            }
+          }
+        },
+        "ArtistId": {
+          "type": {
+            "nullable": {
+              "scalar": "int"
+            }
+          }
+        },
+        "Title": {
+          "type": {
+            "nullable": {
+              "scalar": "string"
+            }
+          }
+        },
+        "_id": {
+          "type": {
+            "nullable": {
+              "scalar": "objectId"
+            }
+          }
+        }
+      }
+    }
+  }
+}

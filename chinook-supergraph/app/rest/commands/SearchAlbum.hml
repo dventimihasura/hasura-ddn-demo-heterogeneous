@@ -1,0 +1,72 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: AlbumHit
+  fields:
+    - name: albumId
+      type: Float!
+    - name: name
+      type: String!
+  graphql:
+    typeName: App_AlbumHit
+    inputTypeName: App_AlbumHitInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: rest
+      dataConnectorObjectType: AlbumHit
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: AlbumHit
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - albumId
+          - name
+
+---
+kind: Command
+version: v1
+definition:
+  name: SearchAlbum
+  outputType: "[AlbumHit!]!"
+  arguments:
+    - name: query
+      type: String!
+  source:
+    dataConnectorName: rest
+    dataConnectorCommand:
+      function: searchAlbum
+  graphql:
+    rootFieldName: app_searchAlbum
+    rootFieldKind: Query
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: SearchAlbum
+  permissions:
+    - role: admin
+      allowExecution: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: Album
+  source: AlbumHit
+  target:
+    model:
+      name: Album
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: albumId
+      target:
+        modelField:
+          - fieldName: albumId  

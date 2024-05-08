@@ -1,0 +1,210 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Invoice
+  fields:
+    - name: billingAddress
+      type: Varchar
+    - name: billingCity
+      type: Varchar
+    - name: billingCountry
+      type: Varchar
+    - name: billingPostalCode
+      type: Varchar
+    - name: billingState
+      type: Varchar
+    - name: customerId
+      type: Int4!
+    - name: invoiceDate
+      type: Timestamp!
+    - name: invoiceId
+      type: Int4!
+    - name: total
+      type: Numeric!
+  graphql:
+    typeName: App_Invoice
+    inputTypeName: App_InvoiceInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: postgres
+      dataConnectorObjectType: Invoice
+      fieldMapping:
+        billingAddress:
+          column:
+            name: BillingAddress
+        billingCity:
+          column:
+            name: BillingCity
+        billingCountry:
+          column:
+            name: BillingCountry
+        billingPostalCode:
+          column:
+            name: BillingPostalCode
+        billingState:
+          column:
+            name: BillingState
+        customerId:
+          column:
+            name: CustomerId
+        invoiceDate:
+          column:
+            name: InvoiceDate
+        invoiceId:
+          column:
+            name: InvoiceId
+        total:
+          column:
+            name: Total
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Invoice
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - billingAddress
+          - billingCity
+          - billingCountry
+          - billingPostalCode
+          - billingState
+          - customerId
+          - invoiceDate
+          - invoiceId
+          - total
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: InvoiceBoolExp
+  objectType: Invoice
+  dataConnectorName: postgres
+  dataConnectorObjectType: Invoice
+  comparableFields:
+    - fieldName: billingAddress
+      operators:
+        enableAll: true
+    - fieldName: billingCity
+      operators:
+        enableAll: true
+    - fieldName: billingCountry
+      operators:
+        enableAll: true
+    - fieldName: billingPostalCode
+      operators:
+        enableAll: true
+    - fieldName: billingState
+      operators:
+        enableAll: true
+    - fieldName: customerId
+      operators:
+        enableAll: true
+    - fieldName: invoiceDate
+      operators:
+        enableAll: true
+    - fieldName: invoiceId
+      operators:
+        enableAll: true
+    - fieldName: total
+      operators:
+        enableAll: true
+  graphql:
+    typeName: App_InvoiceBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: Invoice
+  objectType: Invoice
+  source:
+    dataConnectorName: postgres
+    collection: Invoice
+  filterExpressionType: InvoiceBoolExp
+  orderableFields:
+    - fieldName: billingAddress
+      orderByDirections:
+        enableAll: true
+    - fieldName: billingCity
+      orderByDirections:
+        enableAll: true
+    - fieldName: billingCountry
+      orderByDirections:
+        enableAll: true
+    - fieldName: billingPostalCode
+      orderByDirections:
+        enableAll: true
+    - fieldName: billingState
+      orderByDirections:
+        enableAll: true
+    - fieldName: customerId
+      orderByDirections:
+        enableAll: true
+    - fieldName: invoiceDate
+      orderByDirections:
+        enableAll: true
+    - fieldName: invoiceId
+      orderByDirections:
+        enableAll: true
+    - fieldName: total
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: app_invoice
+    selectUniques:
+      - queryRootField: app_invoiceByInvoiceId
+        uniqueIdentifier:
+          - invoiceId
+    orderByExpressionType: App_InvoiceOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: Invoice
+  permissions:
+    - role: admin
+      select:
+        filter: null
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: customer
+  source: Invoice
+  target:
+    model:
+      name: Customer
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: customerId
+      target:
+        modelField:
+          - fieldName: customerId
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: invoiceLines
+  source: Invoice
+  target:
+    model:
+      name: InvoiceLine
+      relationshipType: Array
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: invoiceId
+      target:
+        modelField:
+          - fieldName: invoiceId
+

@@ -1,0 +1,16 @@
+kind: ConnectorManifest
+version: v1
+spec:
+  supergraphManifests:
+    - base
+definition:
+  name: postgres
+  type: cloud
+  connector:
+    type: hub
+    name: hasura/postgres:v0.6.0
+  deployments:
+    - context: .
+      env:
+        CONNECTION_URI:
+          value: "postgresql://neondb_owner:3flosFZOtne1@ep-shiny-wildflower-a6a3qnkn.us-west-2.aws.neon.tech/neondb?sslmode=require"

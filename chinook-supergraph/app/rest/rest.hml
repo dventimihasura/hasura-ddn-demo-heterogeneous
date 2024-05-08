@@ -1,0 +1,97 @@
+kind: DataConnectorLink
+version: v1
+definition:
+  name: rest
+  url:
+    Fn::ManifestRef: rest
+  schema:
+    version: v0.1
+    schema:
+      scalar_types:
+        Float:
+          representation:
+            type: float64
+          aggregate_functions: {}
+          comparison_operators:
+            _eq:
+              type: equal
+        String:
+          representation:
+            type: string
+          aggregate_functions: {}
+          comparison_operators:
+            _eq:
+              type: equal
+      object_types:
+        AlbumHit:
+          fields:
+            albumId:
+              type:
+                type: named
+                name: Float
+            name:
+              type:
+                type: named
+                name: String
+        ArtistHit:
+          fields:
+            artistId:
+              type:
+                type: named
+                name: Float
+            name:
+              type:
+                type: named
+                name: String
+        TrackHit:
+          fields:
+            name:
+              type:
+                type: named
+                name: String
+            trackId:
+              type:
+                type: named
+                name: Float
+      collections: []
+      functions:
+        - name: searchArtist
+          arguments:
+            query:
+              type:
+                type: named
+                name: String
+          result_type:
+            type: array
+            element_type:
+              type: named
+              name: ArtistHit
+        - name: searchAlbum
+          arguments:
+            query:
+              type:
+                type: named
+                name: String
+          result_type:
+            type: array
+            element_type:
+              type: named
+              name: AlbumHit
+        - name: searchTrack
+          arguments:
+            query:
+              type:
+                type: named
+                name: String
+          result_type:
+            type: array
+            element_type:
+              type: named
+              name: TrackHit
+      procedures: []
+    capabilities:
+      version: 0.1.2
+      capabilities:
+        query:
+          variables: {}
+        mutation: {}

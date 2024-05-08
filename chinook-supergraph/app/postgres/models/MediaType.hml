@@ -1,0 +1,108 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: MediaType
+  fields:
+    - name: mediaTypeId
+      type: Int4!
+    - name: name
+      type: Varchar
+  graphql:
+    typeName: App_MediaType
+    inputTypeName: App_MediaTypeInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: postgres
+      dataConnectorObjectType: MediaType
+      fieldMapping:
+        mediaTypeId:
+          column:
+            name: MediaTypeId
+        name:
+          column:
+            name: Name
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: MediaType
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - mediaTypeId
+          - name
+
+---
+kind: ObjectBooleanExpressionType
+version: v1
+definition:
+  name: MediaTypeBoolExp
+  objectType: MediaType
+  dataConnectorName: postgres
+  dataConnectorObjectType: MediaType
+  comparableFields:
+    - fieldName: mediaTypeId
+      operators:
+        enableAll: true
+    - fieldName: name
+      operators:
+        enableAll: true
+  graphql:
+    typeName: App_MediaTypeBoolExp
+
+---
+kind: Model
+version: v1
+definition:
+  name: MediaType
+  objectType: MediaType
+  source:
+    dataConnectorName: postgres
+    collection: MediaType
+  filterExpressionType: MediaTypeBoolExp
+  orderableFields:
+    - fieldName: mediaTypeId
+      orderByDirections:
+        enableAll: true
+    - fieldName: name
+      orderByDirections:
+        enableAll: true
+  graphql:
+    selectMany:
+      queryRootField: app_mediaType
+    selectUniques:
+      - queryRootField: app_mediaTypeByMediaTypeId
+        uniqueIdentifier:
+          - mediaTypeId
+    orderByExpressionType: App_MediaTypeOrderBy
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: MediaType
+  permissions:
+    - role: admin
+      select:
+        filter: null
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: tracks
+  source: MediaType
+  target:
+    model:
+      name: Track
+      relationshipType: Array
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: mediaTypeId
+      target:
+        modelField:
+          - fieldName: mediaTypeId
+
