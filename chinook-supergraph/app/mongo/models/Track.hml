@@ -234,3 +234,21 @@ definition:
       target:
         modelField:
           - fieldName: mediaTypeId              
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: InvoiceLines
+  source: Track
+  target:
+    model:
+      name: InvoiceLine
+      relationshipType: Array
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: trackId
+      target:
+        modelField:
+          - fieldName: trackId            

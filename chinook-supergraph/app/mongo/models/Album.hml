@@ -113,6 +113,24 @@ definition:
 kind: Relationship
 version: v1
 definition:
+  name: Tracks
+  source: Album
+  target:
+    model:
+      name: Track
+      relationshipType: Array
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: albumId
+      target:
+        modelField:
+          - fieldName: albumId
+
+---
+kind: Relationship
+version: v1
+definition:
   name: Artist
   source: Album
   target:

@@ -697,7 +697,7 @@ manually.  MongoDB is one such example, since it does not have foreign
 key constraints between the collections, which can be used to guess
 the relationships.
 
-First, add this document to the end of the
+First, add these documents to the end of the
 ~./app/mongo/models/Artist.hml~ file.
 
 #+begin_src yaml
@@ -720,7 +720,7 @@ First, add this document to the end of the
             - fieldName: artistId
 #+end_src
 
-Second, add this document to the end of the
+Second, add these documents to the end of the
 ~./app/mongo/models/Album.hml~ file.
 
 #+begin_src yaml
@@ -741,9 +741,26 @@ Second, add this document to the end of the
         target:
           modelField:
             - fieldName: artistId
+  ---
+  kind: Relationship
+  version: v1
+  definition:
+    name: Tracks
+    source: Album
+    target:
+      model:
+        name: Track
+        relationshipType: Array
+    mapping:
+      - source:
+          fieldPath:
+            - fieldName: albumId
+        target:
+          modelField:
+            - fieldName: albumId
 #+end_src
 
-Third, add these document to the end of the
+Third, add these documents to the end of the
 ~./app/mongo/models/Track.hml~ file.
 
 #+begin_src yaml
@@ -799,7 +816,24 @@ Third, add these document to the end of the
             - fieldName: mediaTypeId
         target:
           modelField:
-            - fieldName: mediaTypeId              
+            - fieldName: mediaTypeId
+  ---
+  kind: Relationship
+  version: v1
+  definition:
+    name: InvoiceLines
+    source: Track
+    target:
+      model:
+        name: InvoiceLine
+        relationshipType: Array
+    mapping:
+      - source:
+          fieldPath:
+            - fieldName: trackId
+        target:
+          modelField:
+            - fieldName: trackId
 #+end_src
 
 - What did this do? ::
@@ -1088,11 +1122,11 @@ Create a build for the supergraph with the following command.
 #+RESULTS:
 #+begin_example
 +---------------+------------------------------------------------------------------------------------------------------+
-| [1mBuild Version[0m | 3f46c5e9de                                                                                           |
+| [1mBuild Version[0m | 1ee353e9d9                                                                                           |
 +---------------+------------------------------------------------------------------------------------------------------+
-| [1mAPI URL[0m       | https://prepared-peacock-8287-3f46c5e9de.ddn.hasura.app/graphql                                      |
+| [1mAPI URL[0m       | https://prepared-peacock-8287-1ee353e9d9.ddn.hasura.app/graphql                                      |
 +---------------+------------------------------------------------------------------------------------------------------+
-| [1mConsole URL[0m   | https://console.hasura.io/project/prepared-peacock-8287/environment/default/build/3f46c5e9de/graphql |
+| [1mConsole URL[0m   | https://console.hasura.io/project/prepared-peacock-8287/environment/default/build/1ee353e9d9/graphql |
 +---------------+------------------------------------------------------------------------------------------------------+
 | [1mProject Name[0m  | prepared-peacock-8287                                                                                |
 +---------------+------------------------------------------------------------------------------------------------------+
