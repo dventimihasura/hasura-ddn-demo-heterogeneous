@@ -1133,3 +1133,584 @@ Create a build for the supergraph with the following command.
 | [1mDescription[0m   |                                                                                                      |
 +---------------+------------------------------------------------------------------------------------------------------+
 #+end_example
+
+** Step 20:  Test out the API.
+
+The previous step should log to the console information about the
+project and the immutable build that was just created, including a
+Console URL.  Opening a browser to that URL should provide
+administrative access to the project and the build, with a playground
+for experimenting with GraphQL queries.
+
+Try out a query such as the following example, which traverses all
+three data connector sources:
+
+- Algolia :: perform a full-text search for Tracks.
+- MongoDB :: join to Albums and Artists to get their details.
+- PostgreSQL :: join to InvoiceLineItems to traverse into Customer and
+  Employee data.
+
+#+name: my-headers
+#+begin_src emacs-lisp
+'(
+  ("hasura_cloud_pat" . "Ti1ymY81CGoMV5KAFNc3Sl8S0q86SFmXboOqexKoOM9HpqR4v1Nu3Yo50nrb5wGg")
+ )
+#+end_src
+#+begin_src graphql :url https://bursting-mastodon-6529-2e85f44c26.ddn.hasura.app/graphql :headers my-headers
+    query {
+      app_searchTrack(query: "CO") {
+        name
+        Track {
+          Genre {
+            name
+          }
+          MediaType {
+            name
+          }
+          InvoiceLines {
+            quantity
+            invoice {
+              billingAddress
+              customer {
+                firstName
+                employee {
+                  firstName
+                }
+              }
+            }
+          }
+          Album {
+            title
+            Artist {
+              name
+            }
+          }
+        }
+      }
+    }  
+  #+end_src
+
+  #+RESULTS:
+  #+begin_example
+  {
+    "data": {
+      "app_searchTrack": [
+        {
+          "name": "Cochise",
+          "Track": {
+            "Genre": {
+              "name": "Rock"
+            },
+            "MediaType": {
+              "name": "MPEG audio file"
+            },
+            "InvoiceLines": [
+              {
+                "quantity": 1,
+                "invoice": {
+                  "billingAddress": "1498 rue Bélanger",
+                  "customer": {
+                    "firstName": "François",
+                    "employee": {
+                      "firstName": "Jane"
+                    }
+                  }
+                }
+              }
+            ],
+            "Album": {
+              "title": "Audioslave",
+              "Artist": {
+                "name": "Audioslave"
+              }
+            }
+          }
+        },
+        {
+          "name": "Corcovado (Quiet Nights Of Quiet Stars)",
+          "Track": {
+            "Genre": {
+              "name": "Jazz"
+            },
+            "MediaType": {
+              "name": "MPEG audio file"
+            },
+            "InvoiceLines": [],
+            "Album": {
+              "title": "Warner 25 Anos",
+              "Artist": {
+                "name": "Antônio Carlos Jobim"
+              }
+            }
+          }
+        },
+        {
+          "name": "Coração Do Agreste (Fafá De Belém)",
+          "Track": {
+            "Genre": {
+              "name": "Latin"
+            },
+            "MediaType": {
+              "name": "MPEG audio file"
+            },
+            "InvoiceLines": [
+              {
+                "quantity": 1,
+                "invoice": {
+                  "billingAddress": "69 Salem Street",
+                  "customer": {
+                    "firstName": "John",
+                    "employee": {
+                      "firstName": "Margaret"
+                    }
+                  }
+                }
+              }
+            ],
+            "Album": {
+              "title": "Vozes do MPB",
+              "Artist": {
+                "name": "Various Artists"
+              }
+            }
+          }
+        },
+        {
+          "name": "Confusion",
+          "Track": {
+            "Genre": {
+              "name": "Rock"
+            },
+            "MediaType": {
+              "name": "MPEG audio file"
+            },
+            "InvoiceLines": [
+              {
+                "quantity": 1,
+                "invoice": {
+                  "billingAddress": "8210 111 ST NW",
+                  "customer": {
+                    "firstName": "Mark",
+                    "employee": {
+                      "firstName": "Steve"
+                    }
+                  }
+                }
+              }
+            ],
+            "Album": {
+              "title": "Facelift",
+              "Artist": {
+                "name": "Alice In Chains"
+              }
+            }
+          }
+        },
+        {
+          "name": "Comportamento Geral",
+          "Track": {
+            "Genre": {
+              "name": "Latin"
+            },
+            "MediaType": {
+              "name": "MPEG audio file"
+            },
+            "InvoiceLines": [
+              {
+                "quantity": 1,
+                "invoice": {
+                  "billingAddress": "194A Chain Lake Drive",
+                  "customer": {
+                    "firstName": "Martha",
+                    "employee": {
+                      "firstName": "Steve"
+                    }
+                  }
+                }
+              },
+              {
+                "quantity": 1,
+                "invoice": {
+                  "billingAddress": "4, Rue Milton",
+                  "customer": {
+                    "firstName": "Camille",
+                    "employee": {
+                      "firstName": "Margaret"
+                    }
+                  }
+                }
+              }
+            ],
+            "Album": {
+              "title": "Meus Momentos",
+              "Artist": {
+                "name": "Gonzaguinha"
+              }
+            }
+          }
+        },
+        {
+          "name": "Com A Perna No Mundo",
+          "Track": {
+            "Genre": {
+              "name": "Latin"
+            },
+            "MediaType": {
+              "name": "MPEG audio file"
+            },
+            "InvoiceLines": [],
+            "Album": {
+              "title": "Meus Momentos",
+              "Artist": {
+                "name": "Gonzaguinha"
+              }
+            }
+          }
+        },
+        {
+          "name": "Começaria Tudo Outra Vez",
+          "Track": {
+            "Genre": {
+              "name": "Latin"
+            },
+            "MediaType": {
+              "name": "MPEG audio file"
+            },
+            "InvoiceLines": [
+              {
+                "quantity": 1,
+                "invoice": {
+                  "billingAddress": "4, Rue Milton",
+                  "customer": {
+                    "firstName": "Camille",
+                    "employee": {
+                      "firstName": "Margaret"
+                    }
+                  }
+                }
+              }
+            ],
+            "Album": {
+              "title": "Meus Momentos",
+              "Artist": {
+                "name": "Gonzaguinha"
+              }
+            }
+          }
+        },
+        {
+          "name": "Cold Gin",
+          "Track": {
+            "Genre": {
+              "name": "Rock"
+            },
+            "MediaType": {
+              "name": "MPEG audio file"
+            },
+            "InvoiceLines": [
+              {
+                "quantity": 1,
+                "invoice": {
+                  "billingAddress": "Av. Brigadeiro Faria Lima, 2170",
+                  "customer": {
+                    "firstName": "Luís",
+                    "employee": {
+                      "firstName": "Jane"
+                    }
+                  }
+                }
+              }
+            ],
+            "Album": {
+              "title": "Greatest Kiss",
+              "Artist": {
+                "name": "Kiss"
+              }
+            }
+          }
+        },
+        {
+          "name": "Concerto For Violin, Strings And Continuo In G Major, Op. 3, No. 9: I. Allegro",
+          "Track": {
+            "Genre": {
+              "name": "Classical"
+            },
+            "MediaType": {
+              "name": "Purchased AAC audio file"
+            },
+            "InvoiceLines": [],
+            "Album": {
+              "title": "Locatelli: Concertos for Violin, Strings and Continuo, Vol. 3",
+              "Artist": {
+                "name": "Mela Tenenbaum, Pro Musica Prague & Richard Kapp"
+              }
+            }
+          }
+        },
+        {
+          "name": "Concert Pour 4 Parties De V**Les, H. 545: I. Prelude",
+          "Track": {
+            "Genre": {
+              "name": "Classical"
+            },
+            "MediaType": {
+              "name": "Protected AAC audio file"
+            },
+            "InvoiceLines": [],
+            "Album": {
+              "title": "Charpentier: Divertissements, Airs & Concerts",
+              "Artist": {
+                "name": "Les Arts Florissants & William Christie"
+              }
+            }
+          }
+        },
+        {
+          "name": "Communication Breakdown(3)",
+          "Track": {
+            "Genre": {
+              "name": "Rock"
+            },
+            "MediaType": {
+              "name": "MPEG audio file"
+            },
+            "InvoiceLines": [],
+            "Album": {
+              "title": "BBC Sessions [Disc 1] [Live]",
+              "Artist": {
+                "name": "Led Zeppelin"
+              }
+            }
+          }
+        },
+        {
+          "name": "Concerto For Cello And Orchestra In E Minor, Op. 85: I. Adagio - Moderato",
+          "Track": {
+            "Genre": {
+              "name": "Classical"
+            },
+            "MediaType": {
+              "name": "Protected AAC audio file"
+            },
+            "InvoiceLines": [
+              {
+                "quantity": 1,
+                "invoice": {
+                  "billingAddress": "1498 rue Bélanger",
+                  "customer": {
+                    "firstName": "François",
+                    "employee": {
+                      "firstName": "Jane"
+                    }
+                  }
+                }
+              }
+            ],
+            "Album": {
+              "title": "Elgar: Cello Concerto & Vaughan Williams: Fantasias",
+              "Artist": {
+                "name": "Felix Schmidt, London Symphony Orchestra & Rafael Frühbeck de Burgos"
+              }
+            }
+          }
+        },
+        {
+          "name": "Concerto For Piano No. 2 In F Minor, Op. 21: Ii. Larghetto",
+          "Track": {
+            "Genre": {
+              "name": "Classical"
+            },
+            "MediaType": {
+              "name": "Protected AAC audio file"
+            },
+            "InvoiceLines": [
+              {
+                "quantity": 1,
+                "invoice": {
+                  "billingAddress": "12,Community Centre",
+                  "customer": {
+                    "firstName": "Manoj",
+                    "employee": {
+                      "firstName": "Jane"
+                    }
+                  }
+                }
+              }
+            ],
+            "Album": {
+              "title": "Chopin: Piano Concertos Nos. 1 & 2",
+              "Artist": {
+                "name": "Emanuel Ax, Eugene Ormandy & Philadelphia Orchestra"
+              }
+            }
+          }
+        },
+        {
+          "name": "Concerto No.2 In F Major, Bwv1047, I. Allegro",
+          "Track": {
+            "Genre": {
+              "name": "Classical"
+            },
+            "MediaType": {
+              "name": "Protected AAC audio file"
+            },
+            "InvoiceLines": [
+              {
+                "quantity": 1,
+                "invoice": {
+                  "billingAddress": "12,Community Centre",
+                  "customer": {
+                    "firstName": "Manoj",
+                    "employee": {
+                      "firstName": "Jane"
+                    }
+                  }
+                }
+              }
+            ],
+            "Album": {
+              "title": "Bach: The Brandenburg Concertos",
+              "Artist": {
+                "name": "Orchestra of The Age of Enlightenment"
+              }
+            }
+          }
+        },
+        {
+          "name": "Communication Breakdown(2)",
+          "Track": {
+            "Genre": {
+              "name": "Rock"
+            },
+            "MediaType": {
+              "name": "MPEG audio file"
+            },
+            "InvoiceLines": [
+              {
+                "quantity": 1,
+                "invoice": {
+                  "billingAddress": "Av. Brigadeiro Faria Lima, 2170",
+                  "customer": {
+                    "firstName": "Luís",
+                    "employee": {
+                      "firstName": "Jane"
+                    }
+                  }
+                }
+              }
+            ],
+            "Album": {
+              "title": "BBC Sessions [Disc 1] [Live]",
+              "Artist": {
+                "name": "Led Zeppelin"
+              }
+            }
+          }
+        },
+        {
+          "name": "Concerto For Clarinet In A Major, K. 622: Ii. Adagio",
+          "Track": {
+            "Genre": {
+              "name": "Classical"
+            },
+            "MediaType": {
+              "name": "Protected AAC audio file"
+            },
+            "InvoiceLines": [],
+            "Album": {
+              "title": "Mozart: Wind Concertos",
+              "Artist": {
+                "name": "Berliner Philharmoniker, Claudio Abbado & Sabine Meyer"
+              }
+            }
+          }
+        },
+        {
+          "name": "Concerto For 2 Violins In D Minor, Bwv 1043: I. Vivace",
+          "Track": {
+            "Genre": {
+              "name": "Classical"
+            },
+            "MediaType": {
+              "name": "Protected AAC audio file"
+            },
+            "InvoiceLines": [],
+            "Album": {
+              "title": "Bach: Violin Concertos",
+              "Artist": {
+                "name": "Hilary Hahn, Jeffrey Kahane, Los Angeles Chamber Orchestra & Margaret Batjer"
+              }
+            }
+          }
+        },
+        {
+          "name": "Concerto No. 1 In E Major, Rv 269 \"Spring\": I. Allegro",
+          "Track": {
+            "Genre": {
+              "name": "Classical"
+            },
+            "MediaType": {
+              "name": "Protected AAC audio file"
+            },
+            "InvoiceLines": [],
+            "Album": {
+              "title": "Vivaldi: The Four Seasons",
+              "Artist": {
+                "name": "Anne-Sophie Mutter, Herbert Von Karajan & Wiener Philharmoniker"
+              }
+            }
+          }
+        },
+        {
+          "name": "Communication Breakdown",
+          "Track": {
+            "Genre": {
+              "name": "Rock"
+            },
+            "MediaType": {
+              "name": "MPEG audio file"
+            },
+            "InvoiceLines": [
+              {
+                "quantity": 1,
+                "invoice": {
+                  "billingAddress": "801 W 4th Street",
+                  "customer": {
+                    "firstName": "Kathy",
+                    "employee": {
+                      "firstName": "Steve"
+                    }
+                  }
+                }
+              }
+            ],
+            "Album": {
+              "title": "BBC Sessions [Disc 1] [Live]",
+              "Artist": {
+                "name": "Led Zeppelin"
+              }
+            }
+          }
+        },
+        {
+          "name": "Conciliação",
+          "Track": {
+            "Genre": {
+              "name": "Reggae"
+            },
+            "MediaType": {
+              "name": "MPEG audio file"
+            },
+            "InvoiceLines": [],
+            "Album": {
+              "title": "Acústico MTV [Live]",
+              "Artist": {
+                "name": "Cidade Negra"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+  #+end_example
