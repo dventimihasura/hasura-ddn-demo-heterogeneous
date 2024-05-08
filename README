@@ -103,7 +103,7 @@ Create a new project.
   the cloud environment.  It set up data within Hasura DDN to manage
   the state of this project, associated with your account.  It /also/
   created a directory ~my-first-subgraph~ on your local workstation
-  with files to mediate interation with corresponding project /and/ to
+  with files to mediate interaction with corresponding project /and/ to
   create a place to develop and curate the code and configuration for
   this project.  Here are some of the important files and directories
   to note.
@@ -114,7 +114,7 @@ Create a new project.
   - supergraph :: folder for the whole supergraph
     - auth-config.hml ::
     - compatibility-config.hml ::
-    - graphql-confg.hml :: 
+    - graphql-config.hml :: 
 
 ** Step 6:  Add the Postgres Connector.
 
@@ -433,7 +433,7 @@ via another data connector, from a related MongoDB database.
 #+end_example
 
 - What did this do? ::
-  This step modified the metadata for the sub-graph that we intend to
+  This step modified the metadata for the subgraph that we intend to
   build into our super-graph so that three models, ~Artist~, ~Album~,
   and ~Track~, are not served by the ~postgres~ data connector.  This
   is to lay the groundwork for instead serving those data from a
@@ -844,8 +844,8 @@ Third, add these documents to the end of the
 
 ** Step 16:  Add the TypeScript connector.
 
-Next, we add a data connector manifest to the ~app~ sub-graph for
-conneting to REST services.
+Next, we add a data connector manifest to the ~app~ subgraph for
+connecting to REST services.
 
 #+begin_src bash :results output :exports both
   cd chinook-supergraph
@@ -910,8 +910,8 @@ conneting to REST services.
 - What did this do? ::
   This step made no changes to the cloud environment, just as before
   with the postgres and mongodb connectors.  Rather, it created local
-  files within the ~app~ sub-graph, to configure a new data connector
-  for that sub-graph to get data via TypeScript code.  In a subsequent
+  files within the ~app~ subgraph, to configure a new data connector
+  for that subgraph to get data via TypeScript code.  In a subsequent
   step, we will write TypeScript code to get data from a REST web
   service. 
 
@@ -1714,3 +1714,6 @@ three data connector sources:
     }
   }
   #+end_example
+
+#  LocalWords:  fc ba ee bc javascript eea QU OHSJH ymY CGoMV KAFNc
+#  LocalWords:  Sl SFmXboOqexKoOM HpqR nrb wGg
