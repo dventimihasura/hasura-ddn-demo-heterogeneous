@@ -78,7 +78,7 @@ Create a new project.
 : | [1mConsole URL[0m | https://console.hasura.io/project/prepared-peacock-8287 |
 : +-------------+---------------------------------------------------------+
 
-#+begin_src bash :results output :exports none
+#+begin_src bash :results output :exports results
   cd chinook-supergraph
   tree
 #+end_src
@@ -132,7 +132,7 @@ source, so we need to add those data connectors to the project.
 #+RESULTS:
 : HINT Next, add your Postgres Connection URI as the value for CONNECTION_URI env var in app/postgres/connector/postgres.build.hml file and run `ddn dev`
 
-#+begin_src bash :results output :exports none
+#+begin_src bash :results output :exports results
   cd chinook-supergraph
   tree
 #+end_src
@@ -211,7 +211,7 @@ Update the ~BuildContext~ with this command.
 
 #+RESULTS:
 
-#+begin_src bash :results output :exports none
+#+begin_src bash :results output :exports results
   cd chinook-supergraph
   tree
 #+end_src
@@ -335,7 +335,7 @@ tables and relationships, even if we'll delete some of them later.
               WRITING changes
 #+end_example
 
-#+begin_src bash :results output :exports none
+#+begin_src bash :results output :exports results
   cd chinook-supergraph
   tree
 #+end_src
@@ -396,7 +396,7 @@ via another data connector, from a related MongoDB database.
 
 #+RESULTS:
 
-#+begin_src bash :results output :exports none
+#+begin_src bash :results output :exports results
   cd chinook-supergraph
   tree
 #+end_src
@@ -451,7 +451,7 @@ MongoDB.
 
 #+RESULTS:
 
-#+begin_src bash :results output :exports none
+#+begin_src bash :results output :exports results
   cd chinook-supergraph
   tree
 #+end_src
@@ -536,7 +536,7 @@ command.
 
 #+RESULTS:
 
-#+begin_src bash :results output :exports none
+#+begin_src bash :results output :exports results
   cd chinook-supergraph
   tree
 #+end_src
@@ -622,7 +622,7 @@ tables and relationships, even if we'll delete some of them later.
               WRITING changes
 #+end_example
 
-#+begin_src bash :results output :exports none
+#+begin_src bash :results output :exports results
   cd chinook-supergraph
   tree
 #+end_src
@@ -854,7 +854,7 @@ connecting to REST services.
 
 #+RESULTS:
 
-#+begin_src bash :results output :exports none
+#+begin_src bash :results output :exports results
   cd chinook-supergraph
   tree
 #+end_src
@@ -1151,7 +1151,7 @@ three data connector sources:
   Employee data.
 
 #+name: my-headers
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports results
 '(
   ("hasura_cloud_pat" . "Ti1ymY81CGoMV5KAFNc3Sl8S0q86SFmXboOqexKoOM9HpqR4v1Nu3Yo50nrb5wGg")
  )
