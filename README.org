@@ -118,7 +118,7 @@ corresponds to a subgraph, which is a "module" within the Hasura
 metadata.  Each subgraph has a data connector for a particular data
 source, so we need to add those data connectors to the project.
 
-#+begin_src bash :results output :exports both
+#+begin_src bash :results output :exports code
   cd chinook-supergraph
   ddn add connector-manifest postgres --subgraph app --hub-connector hasura/postgres --type cloud
 #+end_src
