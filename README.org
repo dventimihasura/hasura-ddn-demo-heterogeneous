@@ -2,13 +2,7 @@
 
 #+STARTUP: indent
 
-* What
-
-* Why
-
-* How
-
-** Step 1:  Install the Hasura CLI.
+* Step 1:  Install the Hasura CLI.
 
 There are installation instructions for macOS, Windows, and Linux [[https://hasura.io/docs/3.0/cli/installation/][here.]]
 
@@ -28,7 +22,7 @@ There are installation instructions for macOS, Windows, and Linux [[https://hasu
   This step installed a Command-Line Interface (CLI) on your local
   system but made no changes to any cloud environment.
 
-** Step 2:  Get VSCode.
+* Step 2:  Get VSCode.
 
 Hasura v3 DDN uses [[https://code.visualstudio.com/][VSCode]] as a development environment.  Follow the
 relevant instructions given there.
@@ -37,7 +31,7 @@ relevant instructions given there.
   This step installed the VSCode editor on your local system but made
   no changes to any cloud environment.
 
-** Step 3:  Install the VSCode extension for Hasura.
+* Step 3:  Install the VSCode extension for Hasura.
 
 Hasura v3 DDN enhances VSCode as a development environment using a
 combination of a [[https://microsoft.github.io/language-server-protocol/][language server]] and an extension.  There are
@@ -47,7 +41,7 @@ installation instructions [[https://marketplace.visualstudio.com/items?itemName=
   This step installed the Hasura VSCode extension but made no changes
   to any cloud environment.
 
-** Step 4:  Log into the Hasura DDN cloud.
+* Step 4:  Log into the Hasura DDN cloud.
 
 The Hasura CLI can and should be connected to your Hasura Cloud
 account.  The documentation describes this [[https://hasura.io/docs/3.0/getting-started/create-a-project#step-2-login-to-hasura][here]].
@@ -61,7 +55,7 @@ account.  The documentation describes this [[https://hasura.io/docs/3.0/getting-
   store credential information locally so that the CLI /can/ perform
   operations on the DDN cloud environment.
 
-** Step 5:  Create a new project.
+* Step 5:  Create a new project.
 
 Create a new project.
 
@@ -116,7 +110,7 @@ Create a new project.
     - compatibility-config.hml ::
     - graphql-config.hml :: 
 
-** Step 6:  Add the Postgres Connector.
+* Step 6:  Add the Postgres Connector.
 
 This project creates a supergraph over three data sources:
 PostgreSQL, MongoDB, and a REST micro-service.  Each data source
@@ -167,7 +161,7 @@ source, so we need to add those data connectors to the project.
   built/ in Hasura DDN cloud.
   - postgres.build.hml :: the main file for configuring the connector
 
-** Step 7:  Add the Postgres connection information.
+* Step 7:  Add the Postgres connection information.
 
 These instructions are for a /pre-existing/ set of data resources that
 have already been set up for you, and whose connection information
@@ -200,7 +194,7 @@ the following.
   This step just lays the groundwork for introspecting the database to
   discover what resources we can add to the subgraph.
 
-** Step 8:  Update the ~BuildContext~.
+* Step 8:  Update the ~BuildContext~.
 
 Update the ~BuildContext~ with this command.
 
@@ -247,7 +241,7 @@ Update the ~BuildContext~ with this command.
   moment, the data connector itself still has not been built,
   deployed, or run.
 
-** Step 9:  Track all tables.
+* Step 9:  Track all tables.
 
 Having introspected the database, we're now prepared to make choices
 about which tables to track.  Let's start by tracking /all/ of the
@@ -381,7 +375,7 @@ tables and relationships, even if we'll delete some of them later.
   represent that table in the subgraph (that it is then part of the
   supergraph).  
 
-** Step 10:  Prune the data model.
+* Step 10:  Prune the data model.
 
 Delete the three model files for ~Artist~, ~Album~, and ~Track~.  The
 reason we're doing this is that these data instead will be brought in
@@ -439,7 +433,7 @@ via another data connector, from a related MongoDB database.
   is to lay the groundwork for instead serving those data from a
   ~mongo~ data connector.
 
-** Step 11:  Add the MongoDB connector.
+* Step 11:  Add the MongoDB connector.
 
 Next, we add a data connector manifest to the ~app~ subgraph for
 MongoDB. 
@@ -491,7 +485,7 @@ MongoDB.
 7 directories, 21 files
 #+end_example
 
-** Step 12:  Add the MongoDB connection information.
+* Step 12:  Add the MongoDB connection information.
 
 These instructions are for a /pre-existing/ set of data resources that
 have already been set up for you, and whose connection information
@@ -524,7 +518,7 @@ like the following.
   This step just lays the groundwork for introspecting the database to
   discover what resources we can add to the subgraph.
 
-** Step 13:  Update the ~BuildContext~.
+* Step 13:  Update the ~BuildContext~.
 
 Update the ~BuildContext~ for the mongo data connector with this
 command.
@@ -594,7 +588,7 @@ command.
   collections within the database to obtain documents from which to
   build the model metadata.
 
-** Step 14:  Track all collections.
+* Step 14:  Track all collections.
 
 Having introspected the database, we're now prepared to make choices
 about which tables to track.  Let's start by tracking /all/ of the
@@ -690,7 +684,7 @@ tables and relationships, even if we'll delete some of them later.
   collection.  These are the ~Album.hml~, ~Artist.hml~, and
   ~Track.hml~ model files that we pruned from the postgres connector.  
 
-** Step 15:  Add in some relationships.
+* Step 15:  Add in some relationships.
 
 Some relationships cannot be inferred automatically but must be added
 manually.  MongoDB is one such example, since it does not have foreign
@@ -842,7 +836,7 @@ Third, add these documents to the end of the
   relationships from the ~Track~ model to models from the postgres
   data connector.
 
-** Step 16:  Add the TypeScript connector.
+* Step 16:  Add the TypeScript connector.
 
 Next, we add a data connector manifest to the ~app~ subgraph for
 connecting to REST services.
@@ -915,7 +909,7 @@ connecting to REST services.
   step, we will write TypeScript code to get data from a REST web
   service. 
 
-** Step 19:  Write TypeScript code to get data from a REST web service.
+* Step 19:  Write TypeScript code to get data from a REST web service.
 
 We will add full-text search capabilities over ~Artist~, ~Album~, and
 ~Track~ using a third-party cloud-based search service called [[https://www.algolia.com/][Algolia]].
@@ -997,7 +991,7 @@ First, create this TypeScript code file in
   been set up previously).  These functions become available to the
   Hasura TypeScript connector by way of the 
 
-** Step 20:  Track all operations.
+* Step 20:  Track all operations.
 
 Like we introspected the postgres database with the postgres connector
 and introspected the mongo database with the mongo connector, we can
@@ -1036,7 +1030,7 @@ TypeScript connector.
   ~models~ folder.
 
   
-** Step 21:  Add custom relationships.
+* Step 21:  Add custom relationships.
 
 Some relationships cannot be inferred automatically but must be added
 manually.  Here we add some additional relationships.
@@ -1110,7 +1104,7 @@ document to the end of that file.
             - fieldName: trackId
 #+end_src
 
-** Step 22:  Create a build.
+* Step 22:  Create a build.
 
 Create a build for the supergraph with the following command.
 
@@ -1134,7 +1128,7 @@ Create a build for the supergraph with the following command.
 +---------------+------------------------------------------------------------------------------------------------------+
 #+end_example
 
-** Step 23:  Test out the API.
+* Step 23:  Test out the API.
 
 The previous step should log to the console information about the
 project and the immutable build that was just created, including a
