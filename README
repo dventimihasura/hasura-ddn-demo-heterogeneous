@@ -1151,7 +1151,7 @@ three data connector sources:
   Employee data.
 
 #+name: my-headers
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :exports none
 '(
   ("hasura_cloud_pat" . "Ti1ymY81CGoMV5KAFNc3Sl8S0q86SFmXboOqexKoOM9HpqR4v1Nu3Yo50nrb5wGg")
  )
