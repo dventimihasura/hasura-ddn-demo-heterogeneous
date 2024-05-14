@@ -8,7 +8,7 @@ definition:
   type: cloud
   connector:
     type: hub
-    name: hasura/nodejs:v1.3.0
+    name: hasura/nodejs:v1.4.0
   deployments:
     - context: .
       env: {}

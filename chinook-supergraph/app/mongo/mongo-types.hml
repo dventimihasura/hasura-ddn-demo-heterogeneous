@@ -34,7 +34,7 @@ definition:
   dataConnectorScalarType: String
   representation: String
   graphql:
-    comparisonExpressionTypeName: App_StringComparisonExp_1
+    comparisonExpressionTypeName: App_StringComparisonExp
 
 ---
 kind: ScalarType

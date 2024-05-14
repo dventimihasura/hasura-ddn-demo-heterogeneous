@@ -13,4 +13,4 @@ definition:
     - context: .
       env:
         CONNECTION_URI:
-          value: "postgresql://neondb_owner:3flosFZOtne1@ep-shiny-wildflower-a6a3qnkn.us-west-2.aws.neon.tech/neondb?sslmode=require"
+          value: "postgresql://neondb_owner:8op9uCitqaWE@ep-noisy-sea-a6sl7ic4.us-west-2.aws.neon.tech/neondb?sslmode=require"

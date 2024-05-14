@@ -6,7 +6,7 @@ definition:
   dataConnectorScalarType: String
   representation: String
   graphql:
-    comparisonExpressionTypeName: App_StringComparisonExp
+    comparisonExpressionTypeName: App_StringComparisonExp_1
 
 ---
 kind: DataConnectorScalarRepresentation
