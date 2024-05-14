@@ -59,20 +59,31 @@ account.  The documentation describes this [[https://hasura.io/docs/3.0/getting-
 
 Create a new project.
 
-#+begin_src bash :results output :exports both
+#+begin_src bash :results output :exports both :dir chinook-supergraph
   ddn create project --dir chinook-supergraph
 #+end_src
 
 #+RESULTS:
-: +-------------+---------------------------------------------------------+
-: | [1mName[0m        | prepared-peacock-8287                                   |
-: +-------------+---------------------------------------------------------+
-: | [1mID[0m          | 69ea2c0c-fc22-4ba1-85ee-2f8bc3043263                    |
-: +-------------+---------------------------------------------------------+
-: | [1mConsole URL[0m | https://console.hasura.io/project/prepared-peacock-8287 |
-: +-------------+---------------------------------------------------------+
+#+begin_example
+[?25lCreating .gitattributes file...
+Creating .vscode directory and its contents...
+Creating a new Project
+[K◐[K◓[K◑[K◒[K◐[?25h[K+-------------+----------------------------------------------------+
+| [1mName[0m        | able-pigeon-2671                                   |
++-------------+----------------------------------------------------+
+| [1mID[0m          | 4e0d233d-8e51-4fbe-9723-52f994fb94c6               |
++-------------+----------------------------------------------------+
+| [1mConsole URL[0m | https://console.hasura.io/project/able-pigeon-2671 |
++-------------+----------------------------------------------------+
+Creating hasura.yaml...
+[?25l[?25h[KCreating SupergraphManifest...
+[?25l[?25h[KCreating scaffold files...
+[?25lCreating .devcontainer/devcontainer.json...
+[?25h[K[90m9:52AM[0m [32mINF[0m Project able-pigeon-2671 is created at /home/hasura/Work/siemens-v3-demo/chinook-supergraph
+HINT Run `ddn add connector-manifest mypg --type cloud --hub-connector hasura/postgres` to add a Postgres data source.
+#+end_example
 
-#+begin_src bash :results output :exports results
+#+begin_src bash :results output :exports results :dir chinook-supergraph
   cd chinook-supergraph
   tree
 #+end_src
@@ -118,16 +129,15 @@ corresponds to a subgraph, which is a "module" within the Hasura
 metadata.  Each subgraph has a data connector for a particular data
 source, so we need to add those data connectors to the project.
 
-#+begin_src bash :results output :exports code
-  cd chinook-supergraph
+#+begin_src bash :results output :exports code :dir chinook-supergraph
   ddn add connector-manifest postgres --subgraph app --hub-connector hasura/postgres --type cloud
 #+end_src
 
 #+RESULTS:
+: [90m9:54AM[0m [32mINF[0m ConnectorManifest "hasura/postgres:v0.6.0" with name "postgres" added successfully to Subgraph "app"
 : HINT Next, add your Postgres Connection URI as the value for CONNECTION_URI env var in app/postgres/connector/postgres.build.hml file and run `ddn dev`
 
-#+begin_src bash :results output :exports results
-  cd chinook-supergraph
+#+begin_src bash :results output :exports results :dir chinook-supergraph
   tree
 #+end_src
 
@@ -198,15 +208,13 @@ the following.
 
 Update the ~BuildContext~ with this command.
 
-#+begin_src bash :results output :exports both
-  cd chinook-supergraph
+#+begin_src bash :results output :exports both :dir chinook-supergraph
   ddn update connector-manifest postgres
 #+end_src
 
 #+RESULTS:
 
-#+begin_src bash :results output :exports results
-  cd chinook-supergraph
+#+begin_src bash :results output :exports results :dir chinook-supergraph
   tree
 #+end_src
 
@@ -247,90 +255,13 @@ Having introspected the database, we're now prepared to make choices
 about which tables to track.  Let's start by tracking /all/ of the
 tables and relationships, even if we'll delete some of them later.
 
-#+begin_src bash :results output :exports both
-  cd chinook-supergraph
+#+begin_src bash :results output :exports both :dir chinook-supergraph
   ddn update data-connector-link postgres --add-all-resources
 #+end_src
 
 #+RESULTS:
-#+begin_example
-        LOAD  Project
-      UPDATE  DataConnectorLink postgres at app/postgres/postgres.hml
-   IDENTICAL    DataConnectorLink postgres
-         ADD    Model for collection Album, connector postgres
-    GENERATE      Model Album
-    MODIFIED      (+4 more)
-         ADD    Model for collection Artist, connector postgres
-    GENERATE      Model Artist
-    MODIFIED      (+4 more)
-      UPDATE    Model Customer at app/postgres/models/Customer.hml
-   IDENTICAL      Model Customer
-      UPDATE    Model Employee at app/postgres/models/Employee.hml
-   IDENTICAL      Model Employee
-      UPDATE    Model Genre at app/postgres/models/Genre.hml
-   IDENTICAL      Model Genre
-      UPDATE    Model Invoice at app/postgres/models/Invoice.hml
-   IDENTICAL      Model Invoice
-      UPDATE    Model InvoiceLine at app/postgres/models/InvoiceLine.hml
-   IDENTICAL      Model InvoiceLine
-      UPDATE    Model MediaType at app/postgres/models/MediaType.hml
-   IDENTICAL      Model MediaType
-      UPDATE    Model Playlist at app/postgres/models/Playlist.hml
-   IDENTICAL      Model Playlist
-      UPDATE    Model PlaylistTrack at app/postgres/models/PlaylistTrack.hml
-   IDENTICAL      Model PlaylistTrack
-         ADD    Model for collection Track, connector postgres
-    GENERATE      Model Track
-    MODIFIED      (+4 more)
-         ADD    Relationship for forward, key FK_AlbumArtistId, collection postgres, connector Album
-    GENERATE      Relationship (Album.artist)
-         ADD    Relationship for inverse, key FK_AlbumArtistId, collection postgres, connector Album
-    GENERATE      Relationship (Artist.albums)
-      UPDATE    Relationship (Customer.employee) at app/postgres/models/Customer.hml
-   IDENTICAL      Relationship (Customer.employee)
-      UPDATE    Relationship (Employee.customers) at app/postgres/models/Employee.hml
-   IDENTICAL      Relationship (Employee.customers)
-      UPDATE    Relationship (Employee.employee) at app/postgres/models/Employee.hml
-   IDENTICAL      Relationship (Employee.employee)
-      UPDATE    Relationship (Employee.employees) at app/postgres/models/Employee.hml
-   IDENTICAL      Relationship (Employee.employees)
-      UPDATE    Relationship (Invoice.customer) at app/postgres/models/Invoice.hml
-   IDENTICAL      Relationship (Invoice.customer)
-      UPDATE    Relationship (Customer.invoices) at app/postgres/models/Customer.hml
-   IDENTICAL      Relationship (Customer.invoices)
-      UPDATE    Relationship (InvoiceLine.invoice) at app/postgres/models/InvoiceLine.hml
-   IDENTICAL      Relationship (InvoiceLine.invoice)
-      UPDATE    Relationship (Invoice.invoiceLines) at app/postgres/models/Invoice.hml
-   IDENTICAL      Relationship (Invoice.invoiceLines)
-         ADD    Relationship for forward, key FK_InvoiceLineTrackId, collection postgres, connector InvoiceLine
-    GENERATE      Relationship (InvoiceLine.track)
-         ADD    Relationship for inverse, key FK_InvoiceLineTrackId, collection postgres, connector InvoiceLine
-    GENERATE      Relationship (Track.invoiceLines)
-      UPDATE    Relationship (PlaylistTrack.playlist) at app/postgres/models/PlaylistTrack.hml
-   IDENTICAL      Relationship (PlaylistTrack.playlist)
-      UPDATE    Relationship (Playlist.playlistTracks) at app/postgres/models/Playlist.hml
-   IDENTICAL      Relationship (Playlist.playlistTracks)
-         ADD    Relationship for forward, key FK_PlaylistTrackTrackId, collection postgres, connector PlaylistTrack
-    GENERATE      Relationship (PlaylistTrack.track)
-         ADD    Relationship for inverse, key FK_PlaylistTrackTrackId, collection postgres, connector PlaylistTrack
-    GENERATE      Relationship (Track.playlistTracks)
-         ADD    Relationship for forward, key FK_TrackAlbumId, collection postgres, connector Track
-    GENERATE      Relationship (Track.album)
-         ADD    Relationship for inverse, key FK_TrackAlbumId, collection postgres, connector Track
-    GENERATE      Relationship (Album.tracks)
-         ADD    Relationship for forward, key FK_TrackGenreId, collection postgres, connector Track
-    GENERATE      Relationship (Track.genre)
-         ADD    Relationship for inverse, key FK_TrackGenreId, collection postgres, connector Track
-    GENERATE      Relationship (Genre.tracks)
-         ADD    Relationship for forward, key FK_TrackMediaTypeId, collection postgres, connector Track
-    GENERATE      Relationship (Track.mediaType)
-         ADD    Relationship for inverse, key FK_TrackMediaTypeId, collection postgres, connector Track
-    GENERATE      Relationship (MediaType.tracks)
-              WRITING changes
-#+end_example
 
-#+begin_src bash :results output :exports results
-  cd chinook-supergraph
+#+begin_src bash :results output :exports results :dir chinook-supergraph
   tree
 #+end_src
 
@@ -381,8 +312,7 @@ Delete the three model files for ~Artist~, ~Album~, and ~Track~.  The
 reason we're doing this is that these data instead will be brought in
 via another data connector, from a related MongoDB database.
 
-#+begin_src bash :results output :exports both
-  cd chinook-supergraph
+#+begin_src bash :results output :exports both :dir chinook-supergraph
   rm app/postgres/models/Artist.hml
   rm app/postgres/models/Album.hml
   rm app/postgres/models/Track.hml
@@ -390,8 +320,7 @@ via another data connector, from a related MongoDB database.
 
 #+RESULTS:
 
-#+begin_src bash :results output :exports results
-  cd chinook-supergraph
+#+begin_src bash :results output :exports results :dir chinook-supergraph
   tree
 #+end_src
 
@@ -438,15 +367,14 @@ via another data connector, from a related MongoDB database.
 Next, we add a data connector manifest to the ~app~ subgraph for
 MongoDB. 
 
-#+begin_src bash :results output :exports both
-  cd chinook-supergraph
+#+begin_src bash :results output :exports both :dir chinook-supergraph
   ddn add connector-manifest mongo --subgraph app --hub-connector hasura/mongodb --type cloud
 #+end_src
 
 #+RESULTS:
+: [90m9:58AM[0m [32mINF[0m ConnectorManifest "hasura/mongodb:v0.0.6" with name "mongo" added successfully to Subgraph "app"
 
-#+begin_src bash :results output :exports results
-  cd chinook-supergraph
+#+begin_src bash :results output :exports results :dir chinook-supergraph
   tree
 #+end_src
 
@@ -523,15 +451,13 @@ like the following.
 Update the ~BuildContext~ for the mongo data connector with this
 command.
 
-#+begin_src bash :results output :exports both
-  cd chinook-supergraph
+#+begin_src bash :results output :exports both :dir chinook-supergraph
   ddn update connector-manifest mongo
 #+end_src
 
 #+RESULTS:
 
-#+begin_src bash :results output :exports results
-  cd chinook-supergraph
+#+begin_src bash :results output :exports results :dir chinook-supergraph
   tree
 #+end_src
 
@@ -594,30 +520,13 @@ Having introspected the database, we're now prepared to make choices
 about which tables to track.  Let's start by tracking /all/ of the
 tables and relationships, even if we'll delete some of them later.
 
-#+begin_src bash :results output :exports both
-  cd chinook-supergraph
+#+begin_src bash :results output :exports both :dir chinook-supergraph
   ddn update data-connector-link mongo --add-all-resources
 #+end_src
 
 #+RESULTS:
-#+begin_example
-        LOAD  Project
-      UPDATE  DataConnectorLink mongo at app/mongo/mongo.hml
-   IDENTICAL    DataConnectorLink mongo
-         ADD    Model for collection Album, connector mongo
-    GENERATE      Model Album
-    MODIFIED      (+8 more)
-         ADD    Model for collection Artist, connector mongo
-    GENERATE      Model Artist
-    MODIFIED      (+4 more)
-         ADD    Model for collection Track, connector mongo
-    GENERATE      Model Track
-    MODIFIED      (+6 more)
-              WRITING changes
-#+end_example
 
-#+begin_src bash :results output :exports results
-  cd chinook-supergraph
+#+begin_src bash :results output :exports results :dir chinook-supergraph
   tree
 #+end_src
 
@@ -639,35 +548,22 @@ tables and relationships, even if we'll delete some of them later.
 │   │   │   └── Track.hml
 │   │   ├── mongo.hml
 │   │   └── mongo-types.hml
-│   ├── postgres
-│   │   ├── connector
-│   │   │   ├── configuration.json
-│   │   │   ├── postgres.build.hml
-│   │   │   └── schema.json
-│   │   ├── models
-│   │   │   ├── Customer.hml
-│   │   │   ├── Employee.hml
-│   │   │   ├── Genre.hml
-│   │   │   ├── Invoice.hml
-│   │   │   ├── InvoiceLine.hml
-│   │   │   ├── MediaType.hml
-│   │   │   ├── Playlist.hml
-│   │   │   └── PlaylistTrack.hml
-│   │   ├── postgres.hml
-│   │   └── postgres-types.hml
-│   └── rest
-│       ├── commands
-│       │   ├── SearchAlbum.hml
-│       │   ├── SearchArtist.hml
-│       │   └── SearchTrack.hml
+│   └── postgres
 │       ├── connector
-│       │   ├── functions.ts
-│       │   ├── package.json
-│       │   ├── package-lock.json
-│       │   ├── rest.build.hml
-│       │   └── tsconfig.json
-│       ├── rest.hml
-│       └── rest-types.hml
+│       │   ├── configuration.json
+│       │   ├── postgres.build.hml
+│       │   └── schema.json
+│       ├── models
+│       │   ├── Customer.hml
+│       │   ├── Employee.hml
+│       │   ├── Genre.hml
+│       │   ├── Invoice.hml
+│       │   ├── InvoiceLine.hml
+│       │   ├── MediaType.hml
+│       │   ├── Playlist.hml
+│       │   └── PlaylistTrack.hml
+│       ├── postgres.hml
+│       └── postgres-types.hml
 ├── base.env.yaml
 ├── base.supergraph.hml
 ├── hasura.yaml
@@ -676,7 +572,7 @@ tables and relationships, even if we'll delete some of them later.
     ├── compatibility-config.hml
     └── graphql-config.hml
 
-12 directories, 39 files
+9 directories, 29 files
 #+end_example
 
 - What did this do? ::
@@ -841,15 +737,14 @@ Third, add these documents to the end of the
 Next, we add a data connector manifest to the ~app~ subgraph for
 connecting to REST services.
 
-#+begin_src bash :results output :exports both
-  cd chinook-supergraph
+#+begin_src bash :results output :exports both :dir chinook-supergraph
   ddn add connector-manifest rest --subgraph app --hub-connector hasura/nodejs --type cloud
 #+end_src
 
 #+RESULTS:
+: [90m10:04AM[0m [32mINF[0m ConnectorManifest "hasura/nodejs:v1.4.0" with name "rest" added successfully to Subgraph "app"
 
-#+begin_src bash :results output :exports results
-  cd chinook-supergraph
+#+begin_src bash :results output :exports results :dir chinook-supergraph
   tree
 #+end_src
 
@@ -865,7 +760,12 @@ connecting to REST services.
 │   │   │       ├── Album.json
 │   │   │       ├── Artist.json
 │   │   │       └── Track.json
-│   │   └── mongo.hml
+│   │   ├── models
+│   │   │   ├── Album.hml
+│   │   │   ├── Artist.hml
+│   │   │   └── Track.hml
+│   │   ├── mongo.hml
+│   │   └── mongo-types.hml
 │   ├── postgres
 │   │   ├── connector
 │   │   │   ├── configuration.json
@@ -898,7 +798,7 @@ connecting to REST services.
     ├── compatibility-config.hml
     └── graphql-config.hml
 
-10 directories, 31 files
+11 directories, 35 files
 #+end_example
 
 - What did this do? ::
@@ -998,27 +898,11 @@ and introspected the mongo database with the mongo connector, we can
 also introspect the functions exported by the code used with the
 TypeScript connector.
 
-#+begin_src bash :results output :exports both
-  cd chinook-supergraph
+#+begin_src bash :results output :exports both :dir chinook-supergraph
   ddn update data-connector-link rest --add-all-resources
 #+end_src
 
 #+RESULTS:
-#+begin_example
-        LOAD  Project
-      UPDATE  DataConnectorLink rest at app/rest/rest.hml
-   IDENTICAL    DataConnectorLink rest
-         ADD    Command for source searchArtist, connector rest
-    GENERATE      Command SearchArtist
-    MODIFIED      (+5 more)
-         ADD    Command for source searchAlbum, connector rest
-    GENERATE      Command SearchAlbum
-    MODIFIED      (+3 more)
-         ADD    Command for source searchTrack, connector rest
-    GENERATE      Command SearchTrack
-    MODIFIED      (+3 more)
-              WRITING changes
-#+end_example
 
 - What did this do? ::
   This step wrote out ~.hml~ files in ~./app/rest/commands~ for each
@@ -1028,7 +912,6 @@ TypeScript connector.
   ~functions.ts~ entry is just the default.  NOTE:  for the TypeScript
   connector these are added in a ~commands~ folder rather than in a
   ~models~ folder.
-
   
 * Step 21:  Add custom relationships.
 
@@ -1108,24 +991,23 @@ document to the end of that file.
 
 Create a build for the supergraph with the following command.
 
-#+begin_src bash :results output :exports both
-  cd chinook-supergraph
+#+begin_src bash :results output :exports both :dir chinook-supergraph
   ddn build supergraph-manifest
 #+end_src
 
 #+RESULTS:
 #+begin_example
-+---------------+------------------------------------------------------------------------------------------------------+
-| [1mBuild Version[0m | 1ee353e9d9                                                                                           |
-+---------------+------------------------------------------------------------------------------------------------------+
-| [1mAPI URL[0m       | https://prepared-peacock-8287-1ee353e9d9.ddn.hasura.app/graphql                                      |
-+---------------+------------------------------------------------------------------------------------------------------+
-| [1mConsole URL[0m   | https://console.hasura.io/project/prepared-peacock-8287/environment/default/build/1ee353e9d9/graphql |
-+---------------+------------------------------------------------------------------------------------------------------+
-| [1mProject Name[0m  | prepared-peacock-8287                                                                                |
-+---------------+------------------------------------------------------------------------------------------------------+
-| [1mDescription[0m   |                                                                                                      |
-+---------------+------------------------------------------------------------------------------------------------------+
++---------------+-------------------------------------------------------------------------------------------------+
+| [1mBuild Version[0m | 342b8b59e0                                                                                      |
++---------------+-------------------------------------------------------------------------------------------------+
+| [1mAPI URL[0m       | https://able-pigeon-2671-342b8b59e0.ddn.hasura.app/graphql                                      |
++---------------+-------------------------------------------------------------------------------------------------+
+| [1mConsole URL[0m   | https://console.hasura.io/project/able-pigeon-2671/environment/default/build/342b8b59e0/graphql |
++---------------+-------------------------------------------------------------------------------------------------+
+| [1mProject Name[0m  | able-pigeon-2671                                                                                |
++---------------+-------------------------------------------------------------------------------------------------+
+| [1mDescription[0m   |                                                                                                 |
++---------------+-------------------------------------------------------------------------------------------------+
 #+end_example
 
 * Step 23:  Test out the API.
