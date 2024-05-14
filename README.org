@@ -61,6 +61,7 @@ Create a new project.
 
 #+begin_src bash :results output :exports both :dir chinook-supergraph
   ddn create project --dir chinook-supergraph
+  cd chinook-supergraph
 #+end_src
 
 #+RESULTS:
