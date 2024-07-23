@@ -1,0 +1,11 @@
+type Query {
+  searchArtist(
+    query: String!
+  ): [ArtistHit]
+}
+
+type ArtistHit {
+  objectID: String
+  name: String
+}
+

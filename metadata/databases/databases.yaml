@@ -12,6 +12,38 @@
           type:
             nullable: false
             scalar: objectId
+        - name: AlbumId
+          type:
+            nullable: false
+            scalar: int
+        - name: Title
+          type:
+            nullable: false
+            scalar: string
+        - name: ArtistId
+          type:
+            nullable: false
+            scalar: int
+      name: Album
+    - fields:
+        - name: _id
+          type:
+            nullable: false
+            scalar: objectId
+        - name: ArtistId
+          type:
+            nullable: false
+            scalar: int
+        - name: Name
+          type:
+            nullable: false
+            scalar: string
+      name: Artist
+    - fields:
+        - name: _id
+          type:
+            nullable: false
+            scalar: objectId
         - name: TrackId
           type:
             nullable: false
@@ -49,38 +81,6 @@
             nullable: false
             scalar: double
       name: Track
-    - fields:
-        - name: _id
-          type:
-            nullable: false
-            scalar: objectId
-        - name: AlbumId
-          type:
-            nullable: false
-            scalar: int
-        - name: Title
-          type:
-            nullable: false
-            scalar: string
-        - name: ArtistId
-          type:
-            nullable: false
-            scalar: int
-      name: Album
-    - fields:
-        - name: _id
-          type:
-            nullable: false
-            scalar: objectId
-        - name: ArtistId
-          type:
-            nullable: false
-            scalar: int
-        - name: Name
-          type:
-            nullable: false
-            scalar: string
-      name: Artist
   tables: "!include mongo/tables/tables.yaml"
 - name: postgres
   kind: postgres
