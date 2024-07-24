@@ -99,6 +99,13 @@ services:
   hasura_4:
     image: hasura/graphql-engine:v2.40.0.cli-migrations-v3
     restart: always
+    depends_on:
+      hasura_1:
+        condition: service_healthy
+      hasura_2:
+        condition: service_healthy
+      hasura_3:
+        condition: service_healthy
     ports:
       - ${HGPORT_4}:8080
     healthcheck:
@@ -111,5 +118,5 @@ services:
       HASURA_GRAPHQL_ENABLE_CONSOLE: true
       HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_4
-    # volumes:
-    #   - ./metadata_4/metadata:/hasura-metadata:ro
+    volumes:
+      - ./metadata_4/metadata:/hasura-metadata:ro

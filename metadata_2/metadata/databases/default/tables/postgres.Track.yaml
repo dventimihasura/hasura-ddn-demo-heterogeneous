@@ -14,4 +14,4 @@ object_relationships:
         insertion_order: null
         remote_table:
           - postgres.Album
-logical_model: postgresTrack
+logical_model: Track

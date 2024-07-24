@@ -19,39 +19,7 @@
     forward_client_headers: true
   comment: mongo
   remote_relationships:
-    - relationships:
-        - definition:
-            to_remote_schema:
-              lhs_fields:
-                - GenreId
-              remote_field:
-                Genre_by_pk:
-                  arguments:
-                    GenreId: $GenreId
-              remote_schema: hasura_1
-          name: genre
-        - definition:
-            to_remote_schema:
-              lhs_fields:
-                - MediaTypeId
-              remote_field:
-                MediaType_by_pk:
-                  arguments:
-                    MediaTypeId: $MediaTypeId
-              remote_schema: hasura_1
-          name: mediatype
-        - definition:
-            to_remote_schema:
-              lhs_fields:
-                - TrackId
-              remote_field:
-                PlaylistTrack:
-                  arguments:
-                    where:
-                      TrackId:
-                        _eq: $TrackId
-              remote_schema: hasura_1
-          name: playlists
+    - relationships: []
       type_name: Track
 - name: hasura_3
   definition:
@@ -64,39 +32,9 @@
     forward_client_headers: true
   comment: algolia
   remote_relationships:
-    - relationships:
-        - definition:
-            to_remote_schema:
-              lhs_fields:
-                - objectID
-              remote_field:
-                Artist_by_pk:
-                  arguments:
-                    _id: $objectID
-              remote_schema: hasura_2
-          name: artist
+    - relationships: []
       type_name: ArtistHit
-    - relationships:
-        - definition:
-            to_remote_schema:
-              lhs_fields:
-                - objectID
-              remote_field:
-                Album_by_pk:
-                  arguments:
-                    _id: $objectID
-              remote_schema: hasura_2
-          name: album
+    - relationships: []
       type_name: AlbumHit
-    - relationships:
-        - definition:
-            to_remote_schema:
-              lhs_fields:
-                - objectID
-              remote_field:
-                Track_by_pk:
-                  arguments:
-                    _id: $objectID
-              remote_schema: hasura_2
-          name: track
+    - relationships: []
       type_name: TrackHit
