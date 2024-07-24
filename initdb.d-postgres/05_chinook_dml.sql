@@ -1,3 +1,5 @@
+\c chinook;
+
 INSERT INTO "MediaType" VALUES (1, 'MPEG audio file');
 INSERT INTO "MediaType" VALUES (2, 'Protected AAC audio file');
 INSERT INTO "MediaType" VALUES (3, 'Protected MPEG-4 video file');

@@ -11,7 +11,7 @@ services:
     volumes:
       - ./initdb.d-postgres:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: psql -U postgres -c "select count(*) from \"Artist\""
+      test: psql -U postgres -d chinook -c "select count(*) from \"Artist\""
   mongo:
     image: mongo:6
     restart: always
@@ -26,6 +26,7 @@ services:
       postgres:
         condition: service_healthy
   migrate:
+    profiles: [disabled]
     build: .
     depends_on:
       postgres:
@@ -35,28 +36,79 @@ services:
     depends_on:
       - mongo
     restart: always
-  hasura:
+  hasura_1:
     image: hasura/graphql-engine:v2.38.0.cli-migrations-v3
     depends_on:
       - mongo_data_connector
     restart: always
     ports:
-      - ${HGPORT}:8080
+      - ${HGPORT_1}:8080
     healthcheck:
-      test: ["CMD-SHELL", "curl -s http://localhost:8080/healthz"]
+      test: curl -s http://localhost:8080/healthz
+      # test: ["CMD-SHELL", "curl -s http://localhost:8080/healthz"]
       start_period: 60s
     environment:
       ALGOLIA_INDEX_NAME: 
-      ALGOLIA_API_KEY: c99d87cf6402f18cd3b18b9a2eea511a
-      ALGOLIA_APPLICATION_ID: 2QU6OHSJH8
-      HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      ALGOLIA_API_KEY: ${ALGOLIA_API_KEY}
+      ALGOLIA_APPLICATION_ID: ${ALGOLIA_APPLICATION_ID}
+      HASURA_GRAPHQL_ADMIN_SECRET: hasura
       HASURA_GRAPHQL_DEV_MODE: true
       HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY}
       HASURA_GRAPHQL_ENABLE_CONSOLE: true
       HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/postgres
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_1
       HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}'
       MONGO_URL: mongodb://mongo:mongo@mongo
-      POSTGRES_URL: postgres://postgres:postgres@postgres/postgres
+      POSTGRES_URL: postgres://postgres:postgres@postgres/chinook
     volumes:
       - ./metadata:/hasura-metadata:ro
+  # hasura_2:
+  #   image: hasura/graphql-engine:v2.38.0.cli-migrations-v3
+  #   depends_on:
+  #     - mongo_data_connector
+  #   restart: always
+  #   ports:
+  #     - ${HGPORT}:8080
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "curl -s http://localhost:8080/healthz"]
+  #     start_period: 60s
+  #   environment:
+  #     ALGOLIA_INDEX_NAME: 
+  #     ALGOLIA_API_KEY: ${ALGOLIA_API_KEY}
+  #     ALGOLIA_APPLICATION_ID: ${ALGOLIA_APPLICATION_ID}
+  #     HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+  #     HASURA_GRAPHQL_DEV_MODE: true
+  #     HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY}
+  #     HASURA_GRAPHQL_ENABLE_CONSOLE: true
+  #     HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
+  #     HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_2
+  #     HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}'
+  #     MONGO_URL: mongodb://mongo:mongo@mongo
+  #     POSTGRES_URL: postgres://postgres:postgres@postgres/postgres
+  #   volumes:
+  #     - ./metadata:/hasura-metadata:ro
+  # hasura_3:
+  #   image: hasura/graphql-engine:v2.38.0.cli-migrations-v3
+  #   depends_on:
+  #     - mongo_data_connector
+  #   restart: always
+  #   ports:
+  #     - ${HGPORT}:8080
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "curl -s http://localhost:8080/healthz"]
+  #     start_period: 60s
+  #   environment:
+  #     ALGOLIA_INDEX_NAME: 
+  #     ALGOLIA_API_KEY: ${ALGOLIA_API_KEY}
+  #     ALGOLIA_APPLICATION_ID: ${ALGOLIA_APPLICATION_ID}
+  #     HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+  #     HASURA_GRAPHQL_DEV_MODE: true
+  #     HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY}
+  #     HASURA_GRAPHQL_ENABLE_CONSOLE: true
+  #     HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
+  #     HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_
+  #     HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}'
+  #     MONGO_URL: mongodb://mongo:mongo@mongo
+  #     POSTGRES_URL: postgres://postgres:postgres@postgres/postgres
+  #   volumes:
+  #     - ./metadata:/hasura-metadata:ro
