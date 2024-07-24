@@ -1,0 +1,60 @@
+- name: default
+  kind: Mongo
+  configuration:
+    template: null
+    timeout: null
+    value:
+      connection: mongodb://mongo:mongo@mongo:27017/
+      db: admin
+  logical_models:
+    - fields:
+        - name: _id
+          type:
+            nullable: false
+            scalar: objectId
+        - name: AlbumId
+          type:
+            nullable: false
+            scalar: int
+        - name: Title
+          type:
+            nullable: false
+            scalar: string
+        - name: ArtistId
+          type:
+            nullable: false
+            scalar: int
+      name: Album
+    - fields:
+        - name: _id
+          type:
+            nullable: false
+            scalar: objectId
+        - name: ArtistId
+          type:
+            nullable: false
+            scalar: int
+        - name: Name
+          type:
+            nullable: false
+            scalar: string
+      name: Artist
+    - fields:
+        - name: _id
+          type:
+            nullable: false
+            scalar: objectId
+        - name: AlbumId
+          type:
+            nullable: false
+            scalar: int
+        - name: Title
+          type:
+            nullable: false
+            scalar: string
+        - name: ArtistId
+          type:
+            nullable: false
+            scalar: int
+      name: Track
+  tables: "!include default/tables/tables.yaml"
