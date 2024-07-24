@@ -44,17 +44,41 @@
           type:
             nullable: false
             scalar: objectId
+        - name: TrackId
+          type:
+            nullable: false
+            scalar: int
+        - name: Name
+          type:
+            nullable: false
+            scalar: string
         - name: AlbumId
           type:
             nullable: false
             scalar: int
-        - name: Title
-          type:
-            nullable: false
-            scalar: string
-        - name: ArtistId
+        - name: MediaTypeId
           type:
             nullable: false
             scalar: int
-      name: Track
+        - name: GenreId
+          type:
+            nullable: false
+            scalar: int
+        - name: Composer
+          type:
+            nullable: false
+            scalar: string
+        - name: Milliseconds
+          type:
+            nullable: false
+            scalar: int
+        - name: Bytes
+          type:
+            nullable: false
+            scalar: int
+        - name: UnitPrice
+          type:
+            nullable: false
+            scalar: double
+      name: postgresTrack
   tables: "!include default/tables/tables.yaml"
