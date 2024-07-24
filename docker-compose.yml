@@ -61,7 +61,7 @@ services:
       MONGO_URL: mongodb://mongo:mongo@mongo
       POSTGRES_URL: postgres://postgres:postgres@postgres/chinook
     volumes:
-      - ./metadata:/hasura-metadata:ro
+      - ./metadata_1:/hasura-metadata:ro
   # hasura_2:
   #   image: hasura/graphql-engine:v2.38.0.cli-migrations-v3
   #   depends_on:
