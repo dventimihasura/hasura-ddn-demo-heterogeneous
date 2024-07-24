@@ -1,0 +1,84 @@
+actions:
+  - name: searchArtist
+    definition:
+      kind: ""
+      handler: https://{{ALGOLIA_APPLICATION_ID}}-dsn.algolia.net/1/indexes/artist/query
+      headers:
+        - name: X-Algolia-API-Key
+          value_from_env: ALGOLIA_API_KEY
+        - name: X-Algolia-Application-Id
+          value_from_env: ALGOLIA_APPLICATION_ID
+      request_transform:
+        body:
+          action: transform
+          template: |-
+            {
+              "query": $body.input.query
+            }
+        template_engine: Kriti
+        version: 2
+      response_transform:
+        body:
+          action: transform
+          template: '{{$body.hits}}'
+        template_engine: Kriti
+        version: 2
+    comment: search_artist
+  - name: searchAlbum
+    definition:
+      kind: ""
+      handler: https://{{ALGOLIA_APPLICATION_ID}}-dsn.algolia.net/1/indexes/album/query
+      headers:
+        - name: X-Algolia-API-Key
+          value_from_env: ALGOLIA_API_KEY
+        - name: X-Algolia-Application-Id
+          value_from_env: ALGOLIA_APPLICATION_ID
+      request_transform:
+        body:
+          action: transform
+          template: |-
+            {
+              "query": $body.input.query
+            }
+        template_engine: Kriti
+        version: 2
+      response_transform:
+        body:
+          action: transform
+          template: '{{$body.hits}}'
+        template_engine: Kriti
+        version: 2
+    comment: search_album
+  - name: searchTrack
+    definition:
+      kind: ""
+      handler: https://{{ALGOLIA_APPLICATION_ID}}-dsn.algolia.net/1/indexes/track/query
+      headers:
+        - name: X-Algolia-API-Key
+          value_from_env: ALGOLIA_API_KEY
+        - name: X-Algolia-Application-Id
+          value_from_env: ALGOLIA_APPLICATION_ID
+      request_transform:
+        body:
+          action: transform
+          template: |-
+            {
+              "query": $body.input.query
+            }
+        template_engine: Kriti
+        version: 2
+      response_transform:
+        body:
+          action: transform
+          template: '{{$body.hits}}'
+        template_engine: Kriti
+        version: 2
+    comment: search_track
+custom_types:
+  enums: []
+  input_objects: []
+  objects:
+    - name: ArtistHit
+    - name: AlbumHit
+    - name: TrackHit
+  scalars: []
