@@ -13,7 +13,6 @@ services:
     healthcheck:
       test: psql -U postgres -d chinook -c "select count(*) from \"Artist\""
   mongo:
-    profiles: [disabled]
     image: mongo:6
     restart: always
     ports:
@@ -33,7 +32,6 @@ services:
       postgres:
         condition: service_healthy
   mongo_data_connector:
-    profiles: [disabled]
     image: hasura/mongo-data-connector:v2.38.0
     depends_on:
       - mongo
@@ -50,15 +48,34 @@ services:
       test: curl -s http://localhost:8080/healthz
       start_period: 60s
     environment:
-      ALGOLIA_API_KEY: ${ALGOLIA_API_KEY}
-      ALGOLIA_APPLICATION_ID: ${ALGOLIA_APPLICATION_ID}
+      # ALGOLIA_API_KEY: ${ALGOLIA_API_KEY}
+      # ALGOLIA_APPLICATION_ID: ${ALGOLIA_APPLICATION_ID}
       HASURA_GRAPHQL_ADMIN_SECRET: hasura
       HASURA_GRAPHQL_DEV_MODE: true
       HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY}
       HASURA_GRAPHQL_ENABLE_CONSOLE: true
       HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_1
-      # HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}'
       POSTGRES_URL: postgres://postgres:postgres@postgres/chinook
     volumes:
       - ./metadata_1/metadata:/hasura-metadata:ro
+  hasura_2:
+    image: hasura/graphql-engine:v2.40.0.cli-migrations-v3
+    depends_on:
+      - mongo_data_connector
+    restart: always
+    ports:
+      - ${HGPORT_2}:8080
+    healthcheck:
+      test: curl -s http://localhost:8080/healthz
+      start_period: 60s
+    environment:
+      HASURA_GRAPHQL_ADMIN_SECRET: hasura
+      HASURA_GRAPHQL_DEV_MODE: true
+      HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY}
+      HASURA_GRAPHQL_ENABLE_CONSOLE: true
+      HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_2
+      HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}'
+    # volumes:
+    #   - ./metadata_1/metadata:/hasura-metadata:ro
