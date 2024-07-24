@@ -1,5 +1,10 @@
 version: '3.1'
 services:
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
   postgres:
     image: postgres:16
     ports:
@@ -56,6 +61,8 @@ services:
       HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata
       HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}'
+      HASURA_GRAPHQL_RATE_LIMIT_REDIS_URL: redis://redis:6379
+      HASURA_GRAPHQL_REDIS_URL: redis://redis:6379
       POSTGRES_URL: postgres://postgres:postgres@postgres/chinook
     volumes:
-      - ./metadata/metadata:/hasura-metadata:ro
+      - ./metadata:/hasura-metadata:ro
