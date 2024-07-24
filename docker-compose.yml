@@ -36,27 +36,27 @@ services:
     depends_on:
       - mongo
     restart: always
-  hasura_1:
-    image: hasura/graphql-engine:v2.40.0.cli-migrations-v3
-    depends_on:
-      postgres:
-        condition: service_healthy
-    restart: always
-    ports:
-      - ${HGPORT_1}:8080
-    healthcheck:
-      test: curl -s http://localhost:8080/healthz
-      start_period: 60s
-    environment:
-      HASURA_GRAPHQL_ADMIN_SECRET: hasura
-      HASURA_GRAPHQL_DEV_MODE: true
-      HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY}
-      HASURA_GRAPHQL_ENABLE_CONSOLE: true
-      HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_1
-      POSTGRES_URL: postgres://postgres:postgres@postgres/chinook
-    volumes:
-      - ./metadata_1/metadata:/hasura-metadata:ro
+  # hasura_1:
+  #   image: hasura/graphql-engine:v2.40.0.cli-migrations-v3
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   restart: always
+  #   ports:
+  #     - ${HGPORT_1}:8080
+  #   healthcheck:
+  #     test: curl -s http://localhost:8080/healthz
+  #     start_period: 60s
+  #   environment:
+  #     HASURA_GRAPHQL_ADMIN_SECRET: hasura
+  #     HASURA_GRAPHQL_DEV_MODE: true
+  #     HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY}
+  #     HASURA_GRAPHQL_ENABLE_CONSOLE: true
+  #     HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
+  #     HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_1
+  #     POSTGRES_URL: postgres://postgres:postgres@postgres/chinook
+  #   volumes:
+  #     - ./metadata_1/metadata:/hasura-metadata:ro
   hasura_2:
     image: hasura/graphql-engine:v2.40.0.cli-migrations-v3
     depends_on:
@@ -68,24 +68,6 @@ services:
       test: curl -s http://localhost:8080/healthz
       start_period: 60s
     environment:
-      HASURA_GRAPHQL_ADMIN_SECRET: hasura
-      HASURA_GRAPHQL_DEV_MODE: true
-      HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY}
-      HASURA_GRAPHQL_ENABLE_CONSOLE: true
-      HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_2
-      HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}'
-    volumes:
-      - ./metadata_2/metadata:/hasura-metadata:ro
-  hasura_3:
-    image: hasura/graphql-engine:v2.40.0.cli-migrations-v3
-    restart: always
-    ports:
-      - ${HGPORT_3}:8080
-    healthcheck:
-      test: curl -s http://localhost:8080/healthz
-      start_period: 60s
-    environment:
       ALGOLIA_API_KEY: ${ALGOLIA_API_KEY}
       ALGOLIA_APPLICATION_ID: ${ALGOLIA_APPLICATION_ID}
       HASURA_GRAPHQL_ADMIN_SECRET: hasura
@@ -93,30 +75,51 @@ services:
       HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY}
       HASURA_GRAPHQL_ENABLE_CONSOLE: true
       HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_3
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_2
+      HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"Mongo":{"uri":"http://mongo_data_connector:3000"}}}}'
+      POSTGRES_URL: postgres://postgres:postgres@postgres/chinook
     volumes:
-      - ./metadata_3/metadata:/hasura-metadata:ro
-  hasura_4:
-    image: hasura/graphql-engine:v2.40.0.cli-migrations-v3
-    restart: always
-    depends_on:
-      hasura_1:
-        condition: service_healthy
-      hasura_2:
-        condition: service_healthy
-      hasura_3:
-        condition: service_healthy
-    ports:
-      - ${HGPORT_4}:8080
-    healthcheck:
-      test: curl -s http://localhost:8080/healthz
-      start_period: 60s
-    environment:
-      HASURA_GRAPHQL_ADMIN_SECRET: hasura
-      HASURA_GRAPHQL_DEV_MODE: true
-      HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY}
-      HASURA_GRAPHQL_ENABLE_CONSOLE: true
-      HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_4
-    volumes:
-      - ./metadata_4/metadata:/hasura-metadata:ro
+      - ./metadata_2/metadata:/hasura-metadata:ro
+  # hasura_3:
+  #   image: hasura/graphql-engine:v2.40.0.cli-migrations-v3
+  #   restart: always
+  #   ports:
+  #     - ${HGPORT_3}:8080
+  #   healthcheck:
+  #     test: curl -s http://localhost:8080/healthz
+  #     start_period: 60s
+  #   environment:
+  #     ALGOLIA_API_KEY: ${ALGOLIA_API_KEY}
+  #     ALGOLIA_APPLICATION_ID: ${ALGOLIA_APPLICATION_ID}
+  #     HASURA_GRAPHQL_ADMIN_SECRET: hasura
+  #     HASURA_GRAPHQL_DEV_MODE: true
+  #     HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY}
+  #     HASURA_GRAPHQL_ENABLE_CONSOLE: true
+  #     HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
+  #     HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_3
+  #   volumes:
+  #     - ./metadata_3/metadata:/hasura-metadata:ro
+  # hasura_4:
+  #   image: hasura/graphql-engine:v2.40.0.cli-migrations-v3
+  #   restart: always
+  #   depends_on:
+  #     hasura_1:
+  #       condition: service_healthy
+  #     hasura_2:
+  #       condition: service_healthy
+  #     hasura_3:
+  #       condition: service_healthy
+  #   ports:
+  #     - ${HGPORT_4}:8080
+  #   healthcheck:
+  #     test: curl -s http://localhost:8080/healthz
+  #     start_period: 60s
+  #   environment:
+  #     HASURA_GRAPHQL_ADMIN_SECRET: hasura
+  #     HASURA_GRAPHQL_DEV_MODE: true
+  #     HASURA_GRAPHQL_EE_LICENSE_KEY: ${HASURA_GRAPHQL_EE_LICENSE_KEY}
+  #     HASURA_GRAPHQL_ENABLE_CONSOLE: true
+  #     HASURA_GRAPHQL_MAX_CACHE_SIZE: 200
+  #     HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgres@postgres/metadata_4
+  #   volumes:
+  #     - ./metadata_4/metadata:/hasura-metadata:ro

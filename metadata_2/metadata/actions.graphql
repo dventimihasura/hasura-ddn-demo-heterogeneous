@@ -1,0 +1,33 @@
+type Query {
+  searchAlbum(
+    query: String!
+  ): [AlbumHit]
+}
+
+type Query {
+  searchArtist(
+    query: String!
+  ): [ArtistHit]
+}
+
+type Query {
+  searchTrack(
+    query: String!
+  ): [TrackHit]
+}
+
+type ArtistHit {
+  objectID: String
+  name: String
+}
+
+type AlbumHit {
+  objectID: String
+  name: String
+}
+
+type TrackHit {
+  objectID: String
+  name: String
+}
+
